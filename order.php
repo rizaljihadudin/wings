@@ -198,13 +198,13 @@
                     <td><input type="number" name="subtotal" id="subtotal<?= $prod['id'] ?>" readonly></td>
                     <td>
                         <a onclick="add(<?= $prod['id'] ?>)" class="btn btn-sm btn-success">Add</a> |
-                        <a onclick="delete(<?= $prod['id'] ?>)" class="btn btn-sm btn-secondary">Delete</a>
+                        <a onclick="deletex(<?= $prod['id'] ?>)" class="btn btn-sm btn-secondary">Delete</a>
                     </td>
                 <?php } else {?>
                     <td><input type="number" name="unit" id="unit<?= $prod['id'] ?>" value="<?= $prod['unit_a'] ?>" readonly></td>
                     <td><input type="number" name="subtotal" id="subtotal<?= $prod['id'] ?>" value="<?= $prod['subtotal'] ?>" readonly></td>
                     <td>
-                        <a onclick="delete(<?= $prod['id'] ?>)" class="btn btn-sm btn-secondary">Delete</a>
+                        <a onclick="deletex(<?= $prod['id'] ?>)" class="btn btn-sm btn-secondary">Delete</a>
                     </td>
                 <?php }?>
             </tr>
@@ -393,6 +393,23 @@
                         'id': id,
                         'subtotal' : subtotal,
                         'unit' : unit
+                    },
+                    dataType: "json",
+                    success: function(result) {
+                        if(result == 'sukses'){
+                            location.reload(); 
+                        }
+                    }
+                });
+            }
+
+            function deletex(id)
+            {
+                $.ajax({
+                    type: "POST",
+                    url: "del_temp.php",
+                    data: {
+                        'id': id
                     },
                     dataType: "json",
                     success: function(result) {
