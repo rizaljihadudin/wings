@@ -210,9 +210,7 @@
             </tr>
             <?php } ?>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="3"></td>
                 <td>
                     Rp. <?= number_format($allTotal,2,",",".") ?>
                 </td>
@@ -278,7 +276,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelBuy">Cancel</button>
                 <button id="buy" class="btn btn-success">Buy</a>
             </div>
         </div>
@@ -320,7 +318,7 @@
                             txt = `<s>${price}</s>`
                             txt1= `${harga_setelah_disc}`
                         }else{
-                            txt = '${price}';
+                            txt = `${price}`;
                             txt1 = '';
                         }
                         $('#modal-body').append(`
@@ -359,6 +357,10 @@
                 });
             });
 
+            $("#cancelBuy").on("click", function(e){
+                $('#modal-body').empty()
+            })
+
 
             function getHarga(id)
             {
@@ -386,38 +388,44 @@
             {
                 let subtotal    =  $(`#subtotal${id}`).val()
                 let unit        =  $(`#unit${id}`).val()
-                $.ajax({
-                    type: "POST",
-                    url: "add_temp.php",
-                    data: {
-                        'id': id,
-                        'subtotal' : subtotal,
-                        'unit' : unit
-                    },
-                    dataType: "json",
-                    success: function(result) {
-                        if(result == 'sukses'){
-                            location.reload(); 
+                let conf        = confirm('apakah anda ingin menambahkan daftar belanjaan ini?')
+                if(conf){
+                    $.ajax({
+                        type: "POST",
+                        url: "add_temp.php",
+                        data: {
+                            'id': id,
+                            'subtotal' : subtotal,
+                            'unit' : unit
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            if(result == 'sukses'){
+                                location.reload(); 
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 
             function deletex(id)
             {
-                $.ajax({
-                    type: "POST",
-                    url: "del_temp.php",
-                    data: {
-                        'id': id
-                    },
-                    dataType: "json",
-                    success: function(result) {
-                        if(result == 'sukses'){
-                            location.reload(); 
+                let conf = confirm('apakah anda ingin menghapus daftar belanjaan ini?')
+                if(conf){
+                    $.ajax({
+                        type: "POST",
+                        url: "del_temp.php",
+                        data: {
+                            'id': id
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            if(result == 'sukses'){
+                                location.reload(); 
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 
             function checkout()

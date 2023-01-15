@@ -39,22 +39,35 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach($data as $d) {?>
+            <?php
+                $subTotal = 0; 
+                foreach($data as $d) {?>
             <tr>
                 <td><?= $d['document_code'].'-'.$d['document_number'] ?></td>
                 <td><?= $d['user'] ?></td>
-                <td>Rp . <?= number_format($d['total'],2,",",".") ?></td>
+                <td>Rp. <?= number_format($d['total'],2,",",".") ?></td>
                 <td><?=$d['date'] ?></td>
                 <td>
                 <?php
+                    $subTotal += $d['total'];
                     $datax = mysqli_query($conn, "SELECT a.*, b.product_name FROM transaction_detail a LEFT JOIN product b ON a.product_code = b.product_code  where a.document_number='".$d['document_number']."'");
                     foreach($datax as $val) {
                 ?>
                 <?= $val['product_name'].' X '.$val['quantity'].'<br>' ?>
-                <?php }?>
+                      
+                <?php } ?>
                 </td>
             </tr>
             <?php }?>
+            <tr>
+                <td colspan="3"></td>
+                <td align="center">
+                    <h3>Total</h3>
+                </td>
+                <td>
+                    Rp. <?= number_format($subTotal,2,",",".") ?>
+                </td>
+            </tr>
         </tbody>
 
     </table>
