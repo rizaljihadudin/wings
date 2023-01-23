@@ -1,7 +1,3 @@
-# Tutorial Akses
-1. Import database, yang terdapat di folder database.
-2. Ekstrak folder ini, di web server kalian.
-3. Akun Login :
-      user : admin
-      pass : admin
+# 📑 Description
 
+It's a simple Point Of Sale project, using PHP 7 & MySQL as database management System.
